@@ -43,7 +43,7 @@ class Order extends ApiBase
             
         ],
         'detail' => [
-            'uri' => '/v1/api/openotc/order/list/detail',
+            'uri' => '/v1/api/openotc/order/detail',
             
         ],
         'price' => [
@@ -67,7 +67,7 @@ class Order extends ApiBase
             
         ],
         'appealDeal' => [
-            'uri' => '/v1/api/openotc/appealDeal',
+            'uri' => '/v1/api/openotc/order/appealDeal',
             
         ],
     ];
