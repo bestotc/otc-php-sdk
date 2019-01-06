@@ -5,7 +5,7 @@
  * Date: 2018/12/29
  * Time: 下午12:16
  */
-require_once('autoload.php');
+require_once('../autoload.php');
 
 use OTC\Notify\IM;
 use OTC\Notify\Order;
