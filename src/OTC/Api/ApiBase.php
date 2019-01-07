@@ -44,13 +44,15 @@ abstract class ApiBase
     protected function request($apiName, array $paramsVal, array $nonValidateCheckParams = [], array $paramsAliasName = [])
     {
         $ret = '';
+        $requestString = '';
         $logger = $this->loggerManager->getLogger('request');
         $params = $this->_genParamsMapping($this, $apiName, $paramsVal);
 
         try{
             $this->_checkValidate($params, $nonValidateCheckParams, $paramsAliasName);
             $this->_genRequestInstance($apiName, $params);
-            $logger->info($this->request->toString());
+            $requestString = $this->request->toString();
+            $logger->info($requestString);
 
             $this->response = (new Client())->sendRequest($this->request);
             $responseToString = $this->response->toString();
@@ -66,7 +68,7 @@ abstract class ApiBase
                 throw new HttpResponseException($responseToString);
             }
         }catch (\Exception $e){
-            $logger->error($e->getMessage() . ' '. $this->request->toString());
+            $logger->error($e->getMessage() . ' ' . $requestString);
 
         }
 
