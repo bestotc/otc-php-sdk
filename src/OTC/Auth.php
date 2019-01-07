@@ -1,6 +1,8 @@
 <?php
 namespace OTC;
 
+use OTC\Aws\Sns\Message;
+use OTC\Aws\Sns\MessageValidator;
 use OTC\Http\Request;
 
 final class Auth
@@ -12,9 +14,13 @@ final class Auth
         $this->conf = $conf;
     }
 
-    public function HmacSHA256($data)
+    public function HmacSHA256($data, $secret = '')
     {
-        $hmac = base64_encode(hash_hmac('sha256', $data, $this->conf->getAccessKeySecret(), true));
+        if (!$secret){
+            $secret = $this->conf->getAccessKeySecret();
+        }
+
+        $hmac = base64_encode(hash_hmac('sha256', $data, $secret, true));
         return $hmac;
     }
 
@@ -57,6 +63,23 @@ final class Auth
         $params['Signature'] = $this->HmacSHA256(implode("\n", $signData));
 
         $request->body = $params;
+    }
+
+    public function isValidNotify(Message $message)
+    {
+        $messageValidator = new MessageValidator();
+        $isValid = $messageValidator->isValid($message);
+
+        if ($isValid){
+            $messageData =  $message->toArray();
+            if ($messageData['Type'] == 'Notification'
+                && $messageData['Subject'] != $this->HmacSHA256(json_encode($messageData['Message']), $this->conf->getNotifyKeySecret())){
+
+                $isValid = false;
+            }
+        }
+
+        return $isValid;
     }
 
     private function percentEncode($res)

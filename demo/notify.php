@@ -13,6 +13,7 @@ use OTC\Notify\Order;
 $conf = [
     'AccessKeyId' => '',
     'AccessKeySecret' => '',
+    'NotifyKeySecret' => '',
     'SignatureVersion' => 1,
     'SignatureMethod' => 'HmacSHA256',
     'Env' => 0, //0测试 1生产

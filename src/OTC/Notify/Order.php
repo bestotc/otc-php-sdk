@@ -1,6 +1,7 @@
 <?php
 namespace OTC\Notify;
 
+use OTC\Auth;
 use OTC\Aws\Sns\Message;
 use OTC\Aws\Sns\MessageValidator;
 use OTC\Config;
@@ -28,8 +29,7 @@ final class Order
             $message = Message::fromRawPostData();
             $postData =  $message->toArray();
             $postDataJson = 'post data:' . json_encode($postData);
-            $messageValidator = new MessageValidator();
-            $isValid = $messageValidator->isValid($message);
+            $isValid = (new Auth($this->conf))->isValidNotify($message);
             $logger->info($postDataJson);
 
             if ($isValid){

@@ -18,6 +18,7 @@ final class Config
         'AccessKeySecret' => '',
         'SignatureVersion' => 1,
         'SignatureMethod' => 'HmacSHA256',
+        'NotifyKeySecret' => '',//在后台配置通知地址自定义填写
         //'IsHttps' => false,
         'Env' => self::EVN_TEST, //0测试 1生产
         'LogLevel' => self::LOG_LEVEL_ALL, //0 关闭 1全部 2错误
@@ -45,6 +46,10 @@ final class Config
             exit('请设置AccessKeySecret');
         }
 
+        if (!trim($this->getNotifyKeySecret())){
+            exit('请设置NotifyKeySecret');
+        }
+
         if (!in_array($this->getLogLevel(), [self::LOG_LEVEL_CLOSE, self::LOG_LEVEL_ALL, self::LOG_LEVEL_ERROR])){
             exit('LogLevel 设置错误');
         }
@@ -63,6 +68,11 @@ final class Config
     public function getAccessKeySecret()
     {
         return $this->data['AccessKeySecret'];
+    }
+
+    public function getNotifyKeySecret()
+    {
+        return $this->data['NotifyKeySecret'];
     }
 
     public function getSignatureMethod()
