@@ -38,7 +38,7 @@ final class Auth
         if (array_key_exists('query', $urlParsed)) {
             $queryFields = explode('&' , $urlParsed['query']);
             foreach ($queryFields as $queryField){
-                $queryFieldKV = implode('=', $queryField);
+                $queryFieldKV = explode('=', $queryField);
                 $params[$queryFieldKV[0]] = $queryFieldKV[1];
             }
         }
