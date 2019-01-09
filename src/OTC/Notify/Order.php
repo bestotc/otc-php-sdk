@@ -62,7 +62,7 @@ final class Order
     private function _callback(callable $eventCallback, $notifyType)
     {
         if ($this->data['Type'] == $notifyType){
-            call_user_func($eventCallback, $this->data['message']);
+            call_user_func($eventCallback, $this->data['Message']);
         }
     }
 

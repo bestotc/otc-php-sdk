@@ -73,7 +73,7 @@ final class Auth
         if ($isValid){
             $messageData =  $message->toArray();
             if ($messageData['Type'] == 'Notification'
-                && $messageData['Subject'] != $this->HmacSHA256(json_encode($messageData['Message']), $this->conf->getNotifyKeySecret())){
+                && $messageData['Subject'] != $this->HmacSHA256($messageData['Message'], $this->conf->getNotifyKeySecret())){
 
                 $isValid = false;
             }
