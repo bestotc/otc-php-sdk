@@ -18,7 +18,7 @@ final class Config
         'AccessKeySecret' => '',
         'SignatureVersion' => 1,
         'SignatureMethod' => 'HmacSHA256',
-        'NotifyKeySecret' => '',//在后台配置通知地址自定义填写
+        'NotifyKeySecret' => '',//在后台配置通知地址自定义填写,需要预先完成
         //'IsHttps' => false,
         'Env' => self::EVN_TEST, //0测试 1生产
         'LogLevel' => self::LOG_LEVEL_ALL, //0 关闭 1全部 2错误
