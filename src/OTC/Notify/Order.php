@@ -34,8 +34,8 @@ final class Order
 
             if ($isValid){
                 $this->data = $postData;
-                if ($postData['Type'] == 'SubscriptionConfirmation'){
-                    $this->_subscribeRequest($postData['SubscribeURL']);
+                if (in_array($postData['Type'], ['SubscriptionConfirmation', 'UnsubscribeConfirmation'])){
+                    $this->_subscribeRequest($postData['SubscribeURL'], $postData['Type']);
                 }
             }else{
                 throw new HttpResponseException('数据验证错误');
@@ -71,9 +71,9 @@ final class Order
         $this->_callback($eventCallback, 'Notification');
     }
 
-    private function _subscribeRequest($subscribeURL)
+    private function _subscribeRequest($subscribeURL, $subscriptionType)
     {
-        $logger = $this->loggerManager->getLogger('SubscriptionConfirmation');
+        $logger = $this->loggerManager->getLogger($subscriptionType);
         $logger->info('SubscribeURL:' . $subscribeURL);
 
         $ret = file_get_contents($subscribeURL);
